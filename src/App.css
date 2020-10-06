@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+
 }
 
 .App-logo {
@@ -35,4 +36,17 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.registration-Form {
+
+  display: block;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 300px;
+  background-color: yellow;
+}
+.registration-Form input {
+  display: block;
 }
