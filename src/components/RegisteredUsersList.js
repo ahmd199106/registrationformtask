@@ -1,40 +1,34 @@
 import React from 'react';
-import EditUserlist from "./EditUserList.js" ;
-
-function RegisteredUsersList (props) {
-   
 
 
-
-
-    function handleDeleteUserList() {
-
-        props.onDelete(props.id);
+function RegisteredUsersList ({registereduserlist, deleteUserList, handleformValue}) {
+  
+    function handleDeleteUserList(index) {
+        deleteUserList(index);
     }
 
-    function handleEditUserList() {
-        return <EditUserlist />
+    function handleEditUserList(editdata, index) {
+        handleformValue(editdata, index)
     };
 
 
+//
+
+    return <>
+     {registereduserlist.map((row, index)=> (
+         <div className="registered-users-list">
+         <span>{row.firstName}</span>
+         <span>{row.lastName}</span>
+         <span>{row.email}</span>
+         <span>{row.mobileNumber}</span>   
+         <button onClick={()=>handleDeleteUserList(index)} >delete</button>   
+         <button onClick={()=>handleEditUserList(row, index)} >edit</button>
+     </div>
+     ))}
+    </>
 
 
-
-
-return <div className="registered-users-list">
-
-
-<span>{props.firstName}</span>
-<span>{props.lastName}</span>
-<span>{props.email}</span>
-<span>{props.mobileNumber}</span>   
-<button onClick={handleDeleteUserList} >delete</button>   
-<button onClick={handleEditUserList} >edit</button>
-
-
-
-    </div>
+    
 }
-
 
 export default RegisteredUsersList;

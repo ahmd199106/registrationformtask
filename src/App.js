@@ -7,36 +7,42 @@ import RegisteredUsersList from './components/RegisteredUsersList.js'
   function App() {
 
     const [usersList,setUsersList] = useState([]);
+    const [formValue, setFormValue] = useState({firstName:"", lastName:"",email:"",mobileNumber:""})
+ 
 
-    function addUserDetails (newUserDetails) {
-      setUsersList(prevValue => {
-        return [...prevValue,newUserDetails]
-      })
+    // simply add the new user to the userList Array
+    const addUserDetails = (registrationDetails) => {
+      setUsersList(prevValue =>  ([...prevValue,registrationDetails]))
+    }
+
+    // got call
+    // function to delete the user from userList
+     const deleteUserList = (index)=> {  
+       setUsersList(prevValue =>  prevValue.filter((userList,ind) =>  ind !== index ) )
       }
-    // Always do arrow function, its a good practice
-     const deleteUserList = (id)=> {  
-      setUsersList(prevValue =>  prevValue.filter((userList,index) =>  index !== id ) )
-  //  setUsersList(usersList.filter((user, index)=> index !== id ))
-    }
        
-    const editUserList = (newEditedUserDetails) => {
-      const editedDetail = setUsersList(newEditedUserDetails) 
-      console.log(editedDetail)
-      //=> {
-      //   return [...prevValue.v = newEditedUserDetails   
-      // })
+   
 
+    // this function updates the state of formField (formValue)
+    const handleformValue = (data, index) => {
+      setFormValue({...data, update:true, indx:index})
+      }
+
+    // this function first delete old user delete then add that array to the userlist
+    //then add updated user details that passed from the form field
+    const handleUpdateUser = (data) => {
+      const filterOldrow = usersList.filter((row, index)=> index !== data.indx )
+      setUsersList(prevValue =>  ([...filterOldrow,data]))
     }
-
+  
         return (
           <div className="App">
             <h1>Registration Form task</h1>
-          <RegistrationForm addUserDetails={addUserDetails} />
-          { usersList.map((userList,index) => {return <RegisteredUsersList key={index} id={index}
-          onEdit={editUserList} onDelete={deleteUserList}  firstName={userList.firstName} lastName={userList.lastName} 
-          email={userList.email} mobileNumber={userList.mobileNumber} /> } 
-          )}
-          
+                 <RegistrationForm addUserDetails={addUserDetails} 
+                 formValue={formValue} handleUpdateUser={handleUpdateUser} />
+                 <RegisteredUsersList registereduserlist={usersList} 
+                 handleformValue={handleformValue} handleFormChange={setFormValue} 
+                 deleteUserList={deleteUserList} />
           </div>
         )
     }
